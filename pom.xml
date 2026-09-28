@@ -147,6 +147,17 @@
                 <requireJavaVersion>
                   <version>${java.version}</version>
                 </requireJavaVersion>
+                <bannedDependencies>
+                  <!-- VDLC-2305: pom.xml has repeatedly regressed to this vulnerable
+                       jackson-databind release; fail the build if it reappears as a
+                       direct dependency. Transitive copies pulled in by other
+                       libraries are excluded since they are shadowed by the direct,
+                       patched version declared above and never resolve at runtime. -->
+                  <searchTransitive>false</searchTransitive>
+                  <excludes>
+                    <exclude>com.fasterxml.jackson.core:jackson-databind:(,2.20.0)</exclude>
+                  </excludes>
+                </bannedDependencies>
               </rules>
             </configuration>
           </execution>
